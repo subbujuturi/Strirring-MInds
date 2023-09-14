@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Sharing Tool</title>
+    <style>
+        /* Add your custom CSS styling here */
+        /* Example styling inspired by Medium.com */
+        .highlighted-text {
+            background-color: #FFFFE0;
+            display: inline;
+        }
+        
+        .custom-menu {
+            position: absolute;
+            background-color: #FFFFFF;
+            border: 1px solid #E1E8ED;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            display: none;
+        }
+        
+        .custom-menu button {
+            background-color: #1DA1F2;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac justo non lectus suscipit viverra.</p>
+    </article>
+
+    <div class="custom-menu">
+        <button id="twitter-share-btn">Share on Twitter</button>
+    </div>
+
+    <script>
+        const customMenu = document.querySelector(".custom-menu");
+        const twitterShareBtn = document.getElementById("twitter-share-btn");
+
+        // Function to show the custom menu
+        function showMenu(x, y) {
+            customMenu.style.display = "block";
+            customMenu.style.left = x + "px";
+            customMenu.style.top = y + "px";
+        }
+
+        // Function to hide the custom menu
+        function hideMenu() {
+            customMenu.style.display = "none";
+        }
+
+        // Function to handle text selection
+        function handleSelection(event) {
+            const selection = window.getSelection();
+            const selectedText = selection.toString();
+            if (selectedText) {
+                const range = selection.getRangeAt(0);
+                const rect = range.getBoundingClientRect();
+                showMenu(rect.x, rect.y + rect.height);
+                twitterShareBtn.onclick = () => {
+                    // Replace with your Twitter sharing logic using the Twitter SDK
+                    // For example, you can open a new window with a pre-filled tweet:
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(selectedText)}`);
+                    hideMenu();
+                };
+            } else {
+                hideMenu();
+            }
+        }
+
+        // Add event listener for text selection
+        document.addEventListener("mouseup", handleSelection);
+    </script>
+</body>
+</html>
